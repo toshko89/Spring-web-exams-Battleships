@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/commons::head"></head>
+<body class="body-main">
+<header th:replace="fragments/commons::nav"></header>
+<main role="main">
+    <div class="jumbotron">
+        <div class="container text-light ">
+            <h1 class="display-3 ">
+                <strong class="bg-blur rounded border-white pl-3 font-weight-bold">Add New Ship</strong></h1>
+        </div>
+        <div class="container bg-blur rounded p-5 mt-5 w-75">
+            <form action="/ship-add" method="POST" class="text-center text-light" th:object="${shipDTO}">
+                <div class="form-group row">
+                    <label for="name" class="col-sm-2 col-form-label">Name</label>
+                    <div class="col-sm-10">
+                        <input th:field="${shipDTO.name}" th:errorclass="is-invalid" type="text" class="form-control" id="name" name="name" placeholder="Name">
+                        <div th:if="${#fields.hasErrors('name')}"
+                             class="invalid-feedback" th:errors="*{name}"></div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="power" class="col-sm-2 col-form-label">Power</label>
+                    <div class="col-sm-10">
+                        <input th:field="*{power}" th:errorclass="is-invalid" name="power" placeholder="power" type="number" step="1" class="form-control" id="power"
+                               aria-describedby="powerHelpInline">
+                        <small th:if="${#fields.hasErrors('power')}" th:errors="*{power}" id="powerHelpInline" class="invalid-feedback bg-danger text-light rounded">
+                            The power must be positive.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="health" class="col-sm-2 col-form-label">Health</label>
+                    <div class="col-sm-10">
+                        <input th:field="*{health}" th:errorclass="is-invalid" name="health"  placeholder="health" type="number" step="1" class="form-control" id="health"
+                               aria-describedby="healthHelpInline">
+                        <small th:if="${#fields.hasErrors('health')}" th:errors="*{health}" id="healthHelpInline" class="invalid-feedback bg-danger text-light rounded">
+                            The health must be positive.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="created" class="col-sm-2 col-form-label">Created date</label>
+                    <div class="col-sm-10">
+                        <input th:field="*{created}" th:errorclass="is-invalid" name="created"  placeholder="created" type="date" class="form-control" id="created"
+                               aria-describedby="createdHelpInline">
+                        <small  th:if="${#fields.hasErrors('created')}" th:errors="*{created}" id="createdTimeHelpInline" class="invalid-feedback bg-danger text-light rounded">
+                            Created date cannot be in the future.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="category" class="col-sm-2 col-form-label">Category</label>
+                    <div class="col-sm-10">
+                        <select th:field="*{category}" th:errorclass="is-invalid" id="category" name="category" class="custom-select"
+                                aria-describedby="categoryHelpInline">
+                            <option value="" selected>Category</option>
+                            <option value="BATTLE">BATTLE</option>
+                            <option value="CARGO">CARGO</option>
+                            <option value="PATROL">PATROL</option>
+                        </select>
+                        <small th:if="${#fields.hasErrors('category')}" th:errors="*{category}" id="categoryHelpInline" class="invalid-feedback bg-danger text-light rounded">
+                            You must select the category.
+                        </small>
+                    </div>
+                </div>
+                <div th:if="${#fields.hasErrors()}" th:each="error: ${#fields.errors()}" th:text="${error}" class="invalid-feedback text-danger">Error messages</div>
+                <button type="submit" class="btn btn-danger w-50">Add the new Ship</button>
+            </form>
+        </div>
+    </div>
+</main>
+<footer th:replace="fragments/commons::footer"></footer>
+</body>
+</html>
